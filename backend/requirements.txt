@@ -4,3 +4,4 @@ pydantic
 pandas
 google-genai
 python-multipart
+scikit-learn
