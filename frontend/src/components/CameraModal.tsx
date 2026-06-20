@@ -57,7 +57,10 @@ export default function CameraModal({ isOpen, onClose, onCapture }: CameraModalP
     try {
       console.log("Requesting camera access");
       const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'user' }
+        video: {
+          facingMode: { ideal: 'environment' }
+        }
+
       });
       console.log('camera permission granted');
       console.log("Camera stream received", mediaStream);
