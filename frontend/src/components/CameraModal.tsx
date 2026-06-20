@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Camera, X, Check, RotateCcw, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -45,7 +45,7 @@ export default function CameraModal({ isOpen, onClose, onCapture }: CameraModalP
     setCapturedImage(null);
     setIsInitializing(true);
     setIsCameraReady(false);
-    
+
     stopCamera();
 
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -56,18 +56,18 @@ export default function CameraModal({ isOpen, onClose, onCapture }: CameraModalP
 
     try {
       console.log("Requesting camera access");
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'user' } 
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user' }
       });
       console.log('camera permission granted');
       console.log("Camera stream received", mediaStream);
-      
+
       streamRef.current = mediaStream;
-      
+
       if (videoRef.current) {
         console.log("Video element", videoRef.current);
         videoRef.current.srcObject = mediaStream;
-        
+
         videoRef.current.onloadedmetadata = async () => {
           console.log("Video metadata loaded");
           try {
@@ -84,7 +84,7 @@ export default function CameraModal({ isOpen, onClose, onCapture }: CameraModalP
     } catch (err: any) {
       console.error('Error accessing camera:', err);
       console.log('camera permission denied');
-      
+
       if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
         setError('Camera access denied. Please grant permissions and try again.');
       } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
@@ -143,7 +143,7 @@ export default function CameraModal({ isOpen, onClose, onCapture }: CameraModalP
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
@@ -174,7 +174,7 @@ export default function CameraModal({ isOpen, onClose, onCapture }: CameraModalP
                 <p>Initializing Camera...</p>
               </div>
             )}
-            
+
             {error ? (
               <div className="absolute inset-0 z-10 text-red-500 flex flex-col items-center justify-center p-6 text-center bg-black">
                 <AlertCircle className="w-12 h-12 mb-4" />
@@ -186,10 +186,10 @@ export default function CameraModal({ isOpen, onClose, onCapture }: CameraModalP
             ) : capturedImage ? (
               <img src={capturedImage} alt="Captured" className="w-full h-full object-cover" />
             ) : (
-              <video 
-                ref={videoRef} 
-                autoPlay 
-                playsInline 
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
                 muted
                 className="w-full h-full object-cover"
               />
@@ -201,14 +201,14 @@ export default function CameraModal({ isOpen, onClose, onCapture }: CameraModalP
           <div className="p-4 flex items-center justify-center gap-4 bg-slate-50 dark:bg-slate-800/50">
             {capturedImage ? (
               <>
-                <button 
+                <button
                   onClick={retakePhoto}
                   className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium border border-border bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                 >
                   <RotateCcw className="w-5 h-5" />
                   Retake
                 </button>
-                <button 
+                <button
                   onClick={confirmPhoto}
                   className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium bg-primary text-white hover:bg-blue-600 shadow-lg shadow-primary/20 transition-colors"
                 >
@@ -217,7 +217,7 @@ export default function CameraModal({ isOpen, onClose, onCapture }: CameraModalP
                 </button>
               </>
             ) : (
-              <button 
+              <button
                 onClick={takePhoto}
                 disabled={!!error || !isCameraReady}
                 className="flex items-center gap-2 px-8 py-4 rounded-full font-bold bg-primary text-white hover:bg-blue-600 disabled:opacity-50 shadow-lg shadow-primary/20 transition-colors"
