@@ -1,0 +1,4 @@
+object_type,min_images,required_views
+car,2,front;rear
+laptop,1,screen
+package,1,label
